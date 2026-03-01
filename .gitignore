@@ -5,6 +5,12 @@
 # AI agents
 .claude/**/*.local.*
 
+# PKGBUILD
+/pkg/arch/pkg
+/pkg/arch/src
+/pkg/arch/*.deb
+/pkg/arch/*.tar.*
+
 node_modules
 dist
 out

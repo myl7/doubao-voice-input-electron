@@ -1,5 +1,7 @@
 # 豆包语音输入 (Doubao Voice Input)
 
+> **⚠️ Alpha 版本**：本项目目前处于 alpha 阶段（v0.1.0），功能和 API 可能发生变化，可能存在已知或未知的 bug。欢迎反馈问题和建议！
+
 跨平台实时语音转文字桌面应用。按下快捷键或长按指定按键，即可将语音实时转写为文字并自动输入到当前应用中。
 
 基于字节跳动火山引擎 Seed ASR 流式语音识别 API。
@@ -23,11 +25,59 @@
 
 从 [Releases](https://github.com/myl/doubao-voice-input-electron/releases) 页面下载对应平台的安装包。
 
-Linux 用户下载 AppImage，赋予执行权限后即可运行：
+> **注意**：当前为 alpha 版本，请从 [v0.1.0 Release](https://github.com/myl/doubao-voice-input-electron/releases/tag/v0.1.0) 下载。
+
+| 平台 | 文件 |
+| --- | --- |
+| Linux (通用) | `doubao-voice-input-electron-0.1.0.AppImage` |
+| Debian/Ubuntu | `doubao-voice-input-electron-0.1.0.deb` |
+| Arch Linux (AUR) | `doubao-voice-input-electron-bin` |
+
+#### Linux AppImage
 
 ```bash
-chmod +x Doubao-Voice-Input-*.AppImage
-./Doubao-Voice-Input-*.AppImage
+chmod +x doubao-voice-input-electron-0.1.0.AppImage
+./doubao-voice-input-electron-0.1.0.AppImage
+```
+
+#### Debian/Ubuntu
+
+```bash
+sudo dpkg -i doubao-voice-input-electron-0.1.0.deb
+```
+
+#### Arch Linux (AUR)
+
+使用 AUR helper 安装：
+
+```bash
+# 使用 yay
+yay -S doubao-voice-input-electron-bin
+
+# 或手动构建
+git clone https://aur.archlinux.org/doubao-voice-input-electron-bin.git
+cd doubao-voice-input-electron-bin
+makepkg -si
+```
+
+### 开机自启（systemd）
+
+安装后可通过 systemd 用户服务配置开机自启：
+
+```bash
+systemctl --user enable --now doubao-voice-input-electron.service
+```
+
+查看服务状态：
+
+```bash
+systemctl --user status doubao-voice-input-electron.service
+```
+
+停止并禁用自启：
+
+```bash
+systemctl --user disable --now doubao-voice-input-electron.service
 ```
 
 ### 从源码构建
@@ -40,6 +90,20 @@ cd doubao-voice-input-electron
 pnpm install
 pnpm build:linux
 ```
+
+构建全部产物（包括 Arch Linux 包）：
+
+```bash
+make build-all
+```
+
+| Make 目标 | 说明 |
+| --- | --- |
+| `make build` | 仅编译（electron-vite build） |
+| `make build-linux` | 构建 AppImage + deb |
+| `make build-pkgbuild` | 构建 Linux 包并打 Arch 包 |
+| `make build-all` | 构建所有（包含 Arch 包） |
+| `make clean` | 清理构建产物 |
 
 构建产物在 `dist/` 目录下。
 

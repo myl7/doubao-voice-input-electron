@@ -1,6 +1,6 @@
 {
   "name": "doubao-voice-input-electron",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Real-time speech-to-text using Seed ASR",
   "main": "out/main/index.js",
   "scripts": {
@@ -78,6 +78,8 @@
         "AppImage",
         "deb"
       ],
+      "executableName": "doubao-voice-input-electron",
+      "artifactName": "${name}-${version}.${ext}",
       "category": "Utility",
       "icon": "resources/icon.png"
     }
