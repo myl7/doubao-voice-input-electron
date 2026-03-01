@@ -6,10 +6,10 @@
 .claude/**/*.local.*
 
 # PKGBUILD
-/pkg/arch/pkg
-/pkg/arch/src
-/pkg/arch/*.deb
-/pkg/arch/*.tar.*
+/pkg/pkgbuild/pkg
+/pkg/pkgbuild/src
+/pkg/pkgbuild/*.deb
+/pkg/pkgbuild/*.pkg.tar.zst
 
 node_modules
 dist

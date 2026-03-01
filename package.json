@@ -62,7 +62,7 @@
   },
   "build": {
     "appId": "moe.myl.doubao-voice-input-electron",
-    "productName": "Doubao Voice Input",
+    "productName": "doubao-voice-input-electron",
     "directories": {
       "output": "dist"
     },
@@ -78,8 +78,6 @@
         "AppImage",
         "deb"
       ],
-      "executableName": "doubao-voice-input-electron",
-      "artifactName": "${name}-${version}.${ext}",
       "category": "Utility",
       "icon": "resources/icon.png"
     }

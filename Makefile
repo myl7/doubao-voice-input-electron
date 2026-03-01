@@ -1,23 +1,25 @@
-VERSION := 0.1.0
-PKG_NAME := doubao-voice-input-electron
+PKGNAME := doubao-voice-input-electron
+PKGVER := 0.1.0
+PKGREL := 1
 
-.PHONY: build build-linux build-pkgbuild build-all clean
+PKGFILE_APPIMAGE := $(PKGNAME)-$(PKGVER).AppImage
+PKGFILE_DEB := $(PKGNAME)_$(PKGVER)_amd64.deb
+PKGFILE_PKGBUILD := $(PKGNAME)-bin-$(PKGVER)-$(PKGREL)-x86_64.pkg.tar.zst
 
-build-all: build-linux build-pkgbuild
+.PHONY: build-linux-all build-linux-npm build-linux-pkgbuild clean
 
-build:
-	pnpm run build
+build-linux-all: build-linux-npm build-linux-pkgbuild
 
-build-linux:
+build-linux-npm:
 	CFLAGS="-Wno-error=implicit-function-declaration" pnpm run build:linux
 
-build-pkgbuild: build-linux
-	cp "dist/$(PKG_NAME)-$(VERSION).deb" "pkg/arch/$(PKG_NAME)-$(VERSION).deb"
-	cd pkg/arch && makepkg -f
-	mv pkg/arch/*.pkg.tar.zst dist/
-	rm -f pkg/arch/*.deb
+build-linux-pkgbuild:
+	cp dist/$(PKGFILE_DEB) pkg/pkgbuild/
+	cd pkg/pkgbuild && makepkg -f
+	mv pkg/pkgbuild/$(PKGFILE_PKGBUILD) dist/
+	rm -f pkg/pkgbuild/$(PKGFILE_DEB)
 
 clean:
 	rm -rf dist out
-	rm -f pkg/arch/*.pkg.tar.zst pkg/arch/*.deb
-	rm -rf pkg/arch/pkg pkg/arch/src
+	rm -rf pkg/pkgbuild/pkg pkg/pkgbuild/src
+	rm -f pkg/pkgbuild/$(PKGFILE_PKGBUILD) pkg/pkgbuild/$(PKGFILE_DEB)

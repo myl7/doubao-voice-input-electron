@@ -12,14 +12,14 @@ optdepends=('ydotool: keyboard simulation on Wayland')
 provides=("${_pkgname}")
 conflicts=("${_pkgname}")
 options=('!strip' '!debug')
-source=("${_pkgname}-${pkgver}.deb::${url}/releases/download/v${pkgver}/${_pkgname}-${pkgver}.deb"
+source=("${_pkgname}_${pkgver}_amd64.deb::${url}/releases/download/v${pkgver}/${_pkgname}_${pkgver}_amd64.deb"
         "${_pkgname}.service")
 sha256sums=('SKIP'
-            'SKIP')
+            'bcd3cb66c93fe888ac141f1156025b89d96f34284f4142932598d0d37af29e79')
 
 prepare() {
     cd "${srcdir}"
-    ar x "${_pkgname}-${pkgver}.deb"
+    ar x "${_pkgname}_${pkgver}_amd64.deb"
 }
 
 package() {

@@ -5,9 +5,7 @@ After=graphical-session.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/doubao-voice-input-electron
-Restart=on-failure
-RestartSec=3
+ExecStart=/opt/doubao-voice-input-electron/doubao-voice-input-electron
 
 [Install]
 WantedBy=graphical-session.target
