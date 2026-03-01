@@ -1,0 +1,12 @@
+# IDE
+.vscode
+.idea
+
+# AI agents
+.claude/**/*.local.*
+
+node_modules
+dist
+out
+.DS_Store
+*.log*
