@@ -3,12 +3,10 @@ import { IPC } from "../shared/types";
 import { getSettings, updateSettings } from "./settings";
 import {
     hideFloatingWindow,
-    hideBallWindow,
     showSettingsWindow,
     resizeFloatingWindow,
     broadcastToRenderers,
     getFloatingWindow,
-    getBallWindow,
 } from "./windows";
 import { registerToggleShortcut } from "./shortcut";
 import { startPushToTalk } from "./pushToTalk";
@@ -38,8 +36,7 @@ export function registerIpcHandlers(): void {
                 onRelease: () => {
                     // Notify renderer to finish recording
                     const win = getFloatingWindow();
-                    const ball = getBallWindow();
-                    const target = win?.isVisible() ? win : ball?.isVisible() ? ball : null;
+                    const target = win?.isVisible() ? win : null;
                     target?.webContents.send(IPC.PTT_RELEASE);
                 },
             });
@@ -51,12 +48,7 @@ export function registerIpcHandlers(): void {
 
     // ── Window control ────────────────────────────────────────────────
     ipcMain.on(IPC.WINDOW_HIDE, (_event) => {
-        const settings = getSettings();
-        if (settings.floatingWindowMode === "floatingBall") {
-            hideBallWindow();
-        } else {
-            hideFloatingWindow();
-        }
+        hideFloatingWindow();
     });
 
     ipcMain.on(IPC.WINDOW_SHOW_SETTINGS, () => showSettingsWindow());
@@ -76,9 +68,7 @@ export function registerIpcHandlers(): void {
         asrManager.start(config, (result) => {
             // Forward result to renderer
             const win = getFloatingWindow();
-            const ball = getBallWindow();
             win?.webContents.send(IPC.ASR_RESULT, result);
-            ball?.webContents.send(IPC.ASR_RESULT, result);
         });
     });
 
@@ -101,14 +91,5 @@ export function registerIpcHandlers(): void {
         setTimeout(() => {
             keyboardSimulator.paste(text);
         }, 250);
-    });
-
-    // ── Keyboard simulation (Ball mode) ──────────────────────────────
-    ipcMain.on(IPC.KEYBOARD_APPLY_TEXT, (_event, text: string) => {
-        keyboardSimulator.applyText(text);
-    });
-
-    ipcMain.on(IPC.KEYBOARD_RESET, () => {
-        keyboardSimulator.reset();
     });
 }

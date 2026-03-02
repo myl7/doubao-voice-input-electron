@@ -25,7 +25,6 @@ export default defineConfig({
             rollupOptions: {
                 input: {
                     floating: resolve(__dirname, "floating.html"),
-                    ball: resolve(__dirname, "ball.html"),
                     settings: resolve(__dirname, "settings.html"),
                 },
             },

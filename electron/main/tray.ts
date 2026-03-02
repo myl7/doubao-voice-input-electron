@@ -1,7 +1,6 @@
 import { Tray, Menu, app, nativeImage } from "electron";
 import { join } from "path";
-import { createOrShowFloatingWindow, createOrShowBallWindow, showSettingsWindow } from "./windows";
-import { getSettings } from "./settings";
+import { createOrShowFloatingWindow, showSettingsWindow } from "./windows";
 
 let tray: Tray | null = null;
 
@@ -34,12 +33,7 @@ export function updateTrayMenu(): void {
         {
             label: "Show Window",
             click: () => {
-                const settings = getSettings();
-                if (settings.floatingWindowMode === "floatingBall") {
-                    createOrShowBallWindow();
-                } else {
-                    createOrShowFloatingWindow();
-                }
+                createOrShowFloatingWindow();
             },
         },
         { type: "separator" },

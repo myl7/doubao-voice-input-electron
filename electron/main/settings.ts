@@ -22,7 +22,7 @@ const defaults: AppSettings = {
     contextCaptureEnabled: true,
     maxContextLength: 2000,
     selectedMicrophoneId: "",
-    floatingWindowMode: "fullWindow",
+    inputMethod: "clipboard",
 };
 
 interface StoreInstance {

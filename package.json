@@ -70,7 +70,6 @@
       "out/**/*",
       "resources/**/*",
       "floating.html",
-      "ball.html",
       "settings.html"
     ],
     "linux": {

@@ -11,14 +11,9 @@ import type { AppSettings } from "../../electron/shared/types";
 class TranscriptionController {
     private recorder = new AudioRecorder();
     private settings: AppSettings | null = null;
-    private directInputMode = false;
 
     setSettings(s: AppSettings): void {
         this.settings = s;
-    }
-
-    setDirectInputMode(enabled: boolean): void {
-        this.directInputMode = enabled;
     }
 
     async startRecording(): Promise<void> {
@@ -115,19 +110,6 @@ class TranscriptionController {
         return true;
     }
 
-    async finishRecordingDirectInput(): Promise<void> {
-        const store = useTranscriptionStore.getState();
-        if (store.recordingState !== "recording" && store.recordingState !== "connecting") return;
-
-        this.recorder.stop();
-        window.electronAPI.stopASR();
-
-        await new Promise((r) => setTimeout(r, 400));
-
-        window.electronAPI.offASRResult();
-        store.setRecordingState("idle");
-    }
-
     toggleRecording(): void {
         const store = useTranscriptionStore.getState();
         if (store.recordingState === "idle") {
@@ -162,10 +144,6 @@ class TranscriptionController {
                 text = removeTrailingPunctuation(text);
             }
             store.setTranscribedText(text);
-
-            if (this.directInputMode) {
-                window.electronAPI.applyText(text);
-            }
         }
 
         if (result.isFinal) {

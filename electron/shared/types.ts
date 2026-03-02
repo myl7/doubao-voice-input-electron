@@ -8,8 +8,6 @@ export interface AppSettings {
     windowPositionMode: WindowPositionMode;
     windowPositionX?: number;
     windowPositionY?: number;
-    ballPositionX?: number;
-    ballPositionY?: number;
     autoPasteAfterClose: boolean;
     removeTrailingPunctuation: boolean;
     pushToTalk: PushToTalkConfig;
@@ -17,10 +15,10 @@ export interface AppSettings {
     contextCaptureEnabled: boolean;
     maxContextLength: number;
     selectedMicrophoneId: string;
-    floatingWindowMode: FloatingWindowMode;
+    inputMethod: InputMethod;
 }
 
-export type FloatingWindowMode = "fullWindow" | "floatingBall";
+export type InputMethod = "clipboard";
 
 export type WindowPositionMode = "rememberLast" | "nearMouse" | "topCenter" | "bottomCenter";
 
@@ -74,10 +72,6 @@ export const IPC = {
 
     // Context capture
     CONTEXT_CAPTURED: "context:captured",
-
-    // Keyboard simulation
-    KEYBOARD_APPLY_TEXT: "keyboard:apply-text",
-    KEYBOARD_RESET: "keyboard:reset",
 
     // Global shortcut changed
     SHORTCUT_CHANGED: "shortcut:changed",

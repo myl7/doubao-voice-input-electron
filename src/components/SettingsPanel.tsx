@@ -232,6 +232,24 @@ const ControlsTab: FC<ControlsTabProps> = ({ settings, onChange, audioDevices })
             {/* Behavior */}
             <section>
                 <div style={sectionTitle}>Behavior</div>
+                <div style={{ marginBottom: 10 }}>
+                    <label style={labelStyle}>Input method (text commit)</label>
+                    <select
+                        style={fieldStyle}
+                        value={settings.inputMethod}
+                        onChange={(e) =>
+                            onChange({
+                                inputMethod: e.target.value as typeof settings.inputMethod,
+                            })
+                        }
+                    >
+                        <option value="clipboard">Clipboard paste (Shift+Insert)</option>
+                    </select>
+                    <p style={{ fontSize: 11, color: "#8e8e93", marginTop: 4 }}>
+                        Clipboard mode copies text and simulates Shift+Insert. Works reliably with
+                        Chinese / CJK characters.
+                    </p>
+                </div>
                 <label
                     style={{
                         display: "flex",
@@ -261,22 +279,6 @@ const ControlsTab: FC<ControlsTabProps> = ({ settings, onChange, audioDevices })
             {/* Appearance */}
             <section>
                 <div style={sectionTitle}>Appearance</div>
-                <div style={{ marginBottom: 10 }}>
-                    <label style={labelStyle}>Window mode</label>
-                    <select
-                        style={fieldStyle}
-                        value={settings.floatingWindowMode}
-                        onChange={(e) =>
-                            onChange({
-                                floatingWindowMode: e.target
-                                    .value as typeof settings.floatingWindowMode,
-                            })
-                        }
-                    >
-                        <option value="fullWindow">Full Mode</option>
-                        <option value="floatingBall">Mini Mode (Ball)</option>
-                    </select>
-                </div>
                 <div>
                     <label style={labelStyle}>Window position</label>
                     <select

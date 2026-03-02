@@ -31,10 +31,6 @@ const api = {
     // Recording finished (triggers auto-type via ydotool)
     recordingFinished: (text: string) => ipcRenderer.send(IPC.RECORDING_FINISHED, text),
 
-    // Keyboard simulation (Ball mode)
-    applyText: (text: string) => ipcRenderer.send(IPC.KEYBOARD_APPLY_TEXT, text),
-    resetKeyboard: () => ipcRenderer.send(IPC.KEYBOARD_RESET),
-
     // PTT events from main
     onPTTRelease: (cb: () => void) => {
         ipcRenderer.on(IPC.PTT_RELEASE, () => cb());

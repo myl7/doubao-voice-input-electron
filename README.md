@@ -27,11 +27,11 @@
 
 > **注意**：当前为 alpha 版本，请从 [v0.1.0 Release](https://github.com/myl/doubao-voice-input-electron/releases/tag/v0.1.0) 下载。
 
-| 平台 | 文件 |
-| --- | --- |
-| Linux (通用) | `doubao-voice-input-electron-0.1.0.AppImage` |
-| Debian/Ubuntu | `doubao-voice-input-electron-0.1.0.deb` |
-| Arch Linux (AUR) | `doubao-voice-input-electron-bin` |
+| 平台             | 文件                                         |
+| ---------------- | -------------------------------------------- |
+| Linux (通用)     | `doubao-voice-input-electron-0.1.0.AppImage` |
+| Debian/Ubuntu    | `doubao-voice-input-electron-0.1.0.deb`      |
+| Arch Linux (AUR) | `doubao-voice-input-electron-bin`            |
 
 #### Linux AppImage
 
@@ -97,13 +97,13 @@ pnpm build:linux
 make build-all
 ```
 
-| Make 目标 | 说明 |
-| --- | --- |
-| `make build` | 仅编译（electron-vite build） |
-| `make build-linux` | 构建 AppImage + deb |
-| `make build-pkgbuild` | 构建 Linux 包并打 Arch 包 |
-| `make build-all` | 构建所有（包含 Arch 包） |
-| `make clean` | 清理构建产物 |
+| Make 目标             | 说明                          |
+| --------------------- | ----------------------------- |
+| `make build`          | 仅编译（electron-vite build） |
+| `make build-linux`    | 构建 AppImage + deb           |
+| `make build-pkgbuild` | 构建 Linux 包并打 Arch 包     |
+| `make build-all`      | 构建所有（包含 Arch 包）      |
+| `make clean`          | 清理构建产物                  |
 
 构建产物在 `dist/` 目录下。
 

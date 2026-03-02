@@ -6,7 +6,7 @@ import { registerIpcHandlers } from "./ipc";
 import { getSettings } from "./settings";
 import { startPushToTalk } from "./pushToTalk";
 import { showWindow } from "./shortcut";
-import { getFloatingWindow, getBallWindow } from "./windows";
+import { getFloatingWindow } from "./windows";
 import { IPC } from "../shared/types";
 import { asrManager } from "./asrManager";
 
@@ -53,8 +53,7 @@ app.whenReady().then(() => {
         },
         onRelease: () => {
             const win = getFloatingWindow();
-            const ball = getBallWindow();
-            const target = win?.isVisible() ? win : ball?.isVisible() ? ball : null;
+            const target = win?.isVisible() ? win : null;
             target?.webContents.send(IPC.PTT_RELEASE);
         },
     });

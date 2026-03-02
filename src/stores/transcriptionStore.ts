@@ -21,9 +21,6 @@ interface TranscriptionState {
     // Settings cache
     settings: AppSettings | null;
 
-    // Direct input mode (Ball mode)
-    directInputMode: boolean;
-
     // Actions
     setRecordingState: (s: RecordingState) => void;
     setTranscribedText: (t: string) => void;
@@ -31,7 +28,6 @@ interface TranscriptionState {
     setStatusMessage: (m: string) => void;
     setAudioLevels: (levels: number[]) => void;
     setSettings: (s: AppSettings) => void;
-    setDirectInputMode: (enabled: boolean) => void;
     reset: () => void;
 }
 
@@ -42,7 +38,6 @@ export const useTranscriptionStore = create<TranscriptionState>((set) => ({
     statusMessage: "Ready",
     audioLevels: [0, 0, 0, 0, 0],
     settings: null,
-    directInputMode: false,
 
     setRecordingState: (s) => set({ recordingState: s }),
     setTranscribedText: (t) => set({ transcribedText: t }),
@@ -50,7 +45,6 @@ export const useTranscriptionStore = create<TranscriptionState>((set) => ({
     setStatusMessage: (m) => set({ statusMessage: m }),
     setAudioLevels: (levels) => set({ audioLevels: levels }),
     setSettings: (s) => set({ settings: s }),
-    setDirectInputMode: (enabled) => set({ directInputMode: enabled }),
     reset: () =>
         set({
             recordingState: "idle",

@@ -1,11 +1,5 @@
 import { globalShortcut } from "electron";
-import {
-    createOrShowFloatingWindow,
-    createOrShowBallWindow,
-    hideBallWindow,
-    getFloatingWindow,
-    getBallWindow,
-} from "./windows";
+import { createOrShowFloatingWindow, getFloatingWindow } from "./windows";
 import { getSettings } from "./settings";
 
 let registeredToggleShortcut = "";
@@ -45,33 +39,17 @@ export function unregisterAll(): void {
 }
 
 function toggleWindow(): void {
-    const settings = getSettings();
-
-    if (settings.floatingWindowMode === "floatingBall") {
-        const ball = getBallWindow();
-        if (ball && ball.isVisible()) {
-            hideBallWindow();
-        } else {
-            createOrShowBallWindow();
-        }
+    const win = getFloatingWindow();
+    if (win && win.isVisible()) {
+        // Notify renderer to finish (auto-paste if text, else just hide)
+        win.webContents.send("window:toggle-close");
     } else {
-        const win = getFloatingWindow();
-        if (win && win.isVisible()) {
-            // Notify renderer to finish (auto-paste if text, else just hide)
-            win.webContents.send("window:toggle-close");
-        } else {
-            createOrShowFloatingWindow();
-        }
+        createOrShowFloatingWindow();
     }
 }
 
 export function showWindow(): void {
-    const settings = getSettings();
-    if (settings.floatingWindowMode === "floatingBall") {
-        createOrShowBallWindow();
-    } else {
-        createOrShowFloatingWindow();
-    }
+    createOrShowFloatingWindow();
 }
 
 export { registeredFinishShortcut };

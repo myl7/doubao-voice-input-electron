@@ -4,7 +4,6 @@ import { getSettings, updateSettings } from "./settings";
 import type { WindowPositionMode } from "../shared/types";
 
 let floatingWindow: BrowserWindow | null = null;
-let ballWindow: BrowserWindow | null = null;
 let settingsWindow: BrowserWindow | null = null;
 
 // ------------------------------------------------------------------
@@ -54,21 +53,8 @@ function calcWindowPosition(
     }
 }
 
-function calcBallPosition(): { x: number; y: number } {
-    const settings = getSettings();
-    const mode = settings.windowPositionMode;
-    if (mode === "rememberLast") {
-        const bx = settings.ballPositionX;
-        const by = settings.ballPositionY;
-        if (bx !== undefined && by !== undefined) return { x: bx, y: by };
-    }
-    const display = screen.getPrimaryDisplay();
-    const { x: wa, width: dw, height: dh } = display.workArea;
-    return { x: wa + dw - 80, y: dh - 120 };
-}
-
 // ------------------------------------------------------------------
-// Floating window (Full Mode)
+// Floating window
 // ------------------------------------------------------------------
 
 export function getFloatingWindow(): BrowserWindow | null {
@@ -155,70 +141,6 @@ export function resizeFloatingWindow(width: number, height: number): void {
 }
 
 // ------------------------------------------------------------------
-// Floating ball (Mini Mode)
-// ------------------------------------------------------------------
-
-export function getBallWindow(): BrowserWindow | null {
-    return ballWindow;
-}
-
-export function createOrShowBallWindow(): BrowserWindow {
-    if (ballWindow && !ballWindow.isDestroyed()) {
-        if (!ballWindow.isVisible()) {
-            const pos = calcBallPosition();
-            ballWindow.setPosition(pos.x, pos.y);
-            ballWindow.show();
-        }
-        return ballWindow;
-    }
-
-    const size = 96; // includes glow padding
-    const pos = calcBallPosition();
-
-    ballWindow = new BrowserWindow({
-        width: size,
-        height: size,
-        x: pos.x,
-        y: pos.y,
-        frame: false,
-        transparent: true,
-        resizable: false,
-        alwaysOnTop: true,
-        skipTaskbar: true,
-        hasShadow: false,
-        focusable: false, // Never steal focus
-        webPreferences: {
-            preload: join(__dirname, "../preload/index.js"),
-            contextIsolation: true,
-            nodeIntegration: false,
-        },
-    });
-
-    ballWindow.setIgnoreMouseEvents(false);
-    ballWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
-    ballWindow.setAlwaysOnTop(true, "floating");
-
-    if (process.env["ELECTRON_RENDERER_URL"]) {
-        ballWindow.loadURL(process.env["ELECTRON_RENDERER_URL"] + "/ball.html");
-    } else {
-        ballWindow.loadFile(join(__dirname, "../renderer/ball.html"));
-    }
-
-    ballWindow.on("moved", () => {
-        if (ballWindow) {
-            const [bx, by] = ballWindow.getPosition();
-            updateSettings({ ballPositionX: bx, ballPositionY: by });
-        }
-    });
-
-    return ballWindow;
-}
-
-export function hideBallWindow(): void {
-    ballWindow?.hide();
-}
-
-// ------------------------------------------------------------------
 // Settings window
 // ------------------------------------------------------------------
 
@@ -258,7 +180,7 @@ export function showSettingsWindow(): void {
 // ------------------------------------------------------------------
 
 export function broadcastToRenderers(channel: string, ...args: unknown[]): void {
-    const windows = [floatingWindow, ballWindow, settingsWindow].filter(
+    const windows = [floatingWindow, settingsWindow].filter(
         (w): w is BrowserWindow => w !== null && !w.isDestroyed(),
     );
     for (const win of windows) {
@@ -268,10 +190,6 @@ export function broadcastToRenderers(channel: string, ...args: unknown[]): void 
 
 export function getFloatingWebContents(): WebContents | null {
     return floatingWindow?.webContents ?? null;
-}
-
-export function getBallWebContents(): WebContents | null {
-    return ballWindow?.webContents ?? null;
 }
 
 // Cleanup
