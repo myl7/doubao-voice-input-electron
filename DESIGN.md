@@ -15,7 +15,7 @@ pnpm build                 # 生产构建 → out/
 CFLAGS="-Wno-error=implicit-function-declaration" pnpm run build:linux   # → dist/
 ```
 
-> `@jitsi/robotjs` 在 GCC ≥14 下需上述 `CFLAGS`。构建 deb 包需 `libcrypt.so.1`（Arch: `libxcrypt-compat`）。
+> `@jitsi/robotjs` 在 GCC ≥14 下需上述 `CFLAGS`（仅 macOS/Windows 使用，Linux 使用 `xdotool`）。构建 deb 包需 `libcrypt.so.1`（Arch: `libxcrypt-compat`）。
 
 ## 核心数据流
 
@@ -73,5 +73,5 @@ CFLAGS="-Wno-error=implicit-function-declaration" pnpm run build:linux   # → d
 ## Linux 注意事项
 
 - 启动参数：`--enable-transparent-visuals`、`--disable-gpu-vsync`、`--disable-frame-rate-limit`（透明窗口和 VSync 修复）
-- Wayland 检测：`process.env.WAYLAND_DISPLAY`，使用 `xdotool`（XWayland）替代 robotjs
+- Wayland 检测：`process.env.WAYLAND_DISPLAY`，使用 `xdotool`（XWayland，必需依赖）替代 robotjs
 - uiohook-napi 的 `Could not set thread priority` 和 `XkbGetKeyboard failed` 是非致命警告，不影响功能
